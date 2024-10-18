@@ -5,6 +5,11 @@ class Registrant
         @age = age
         @license = false
         @registrant = Registrant.new(name, age, license)
+        @license_data = { written: false, license: false, renewed: false }
+    end
+
+    def permit?
+        @license
     end
     def earn_permit
         @license = true
