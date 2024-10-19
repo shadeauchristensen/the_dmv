@@ -2,7 +2,7 @@ require 'rspec'
 require './lib/registrant'
 
 RSpec.describe Registrant do
-    describe 'Registrant' do
+    describe '#initialize' do
         it 'can initialize' do
             registrant_1 = Registrant.new('Bruce', 18, true )
             registrant_2 = Registrant.new('Penny', 15, false)
@@ -18,7 +18,6 @@ RSpec.describe Registrant do
             expect(registrant_2.age).to eq(15)
             expect(registrant_2.permit?).to eq(false)
             expect(registrant_2.license_data).to eq({ written: false, license: false, renewed: false })
-    
         end
     end
 
