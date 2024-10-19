@@ -11,4 +11,15 @@ class Facility
   def add_services(service)
     @services << service
   end
+
+  def registration_cost(plate_type, vehicle_age)
+    case plate_type
+    when :antique
+      25
+    when :ev
+      200
+    else
+      100
+    end
+  end
 end
