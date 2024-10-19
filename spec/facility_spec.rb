@@ -31,7 +31,6 @@ RSpec.describe Facility do
         'Vehicle Registration' ]
       )
     end
-  end
 
     it 'sets up plate_type' do
       facility = Facility.new(
@@ -39,6 +38,7 @@ RSpec.describe Facility do
         address: '2855 Tremont Place Suite 118 Denver CO 80205', 
         phone: '(720) 865-4600' }
     )
+    end
   end
 
   describe '#registration_cost' do
@@ -53,6 +53,18 @@ RSpec.describe Facility do
 
     it 'defaults to $100 for regular registration' do
       expect(@facility.registration_cost(:regular)).to eq(100)
+    end
+  end
+
+  describe '#adiministration_written_test' do
+    it 'administers a written test check for over 16' do
+      registrant_1 = Registrant.new('Bruce', 18, true)
+      registrant_2 = Registrant.new('Penny', 15, false)      
+      
+      expect(@facility.administration_written_test(registrant_1)).to eq('Pass')
+      expect(registrant_1.license_data[:written]).to eq(true)
+      expect(@facility.administration_written_test(registrant_2)).to eq('Reject')
+      expect(registrant_2.license_data[:written]).to eq(false)
     end
   end
 end

@@ -21,4 +21,14 @@ class Facility
       100
     end
   end
+
+  def administration_written_test(registrant)
+    if registrant.age >= 16
+      p 'Pass'
+    elsif registrant.age < 16
+      p 'Reject'
+    else
+      p 'Error'
+    end
+  end
 end

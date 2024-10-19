@@ -21,9 +21,9 @@ RSpec.describe Registrant do
         end
     end
 
-    describe '#permit?' do
+    describe '#can_earnpermit?' do
         it 'can earn a permit' do
-            registrant_1 = Registrant.new('Bruce', 18, true )
+            registrant_1 = Registrant.new('Bruce', 18, true)
             registrant_1.earn_permit
             expect(registrant_1.permit?).to eq(true)
             registrant_2 = Registrant.new('Penny', 15, false)
