@@ -1,4 +1,6 @@
-require 'spec_helper'
+require 'rspec'
+require ' /lib/facility'
+# require 'spec_helper'
 
 RSpec.describe Facility do
   before(:each) do
@@ -21,6 +23,20 @@ RSpec.describe Facility do
       @facility.add_service('Renew Drivers License')
       @facility.add_service('Vehicle Registration')
       expect(@facility.services).to eq(['New Drivers License', 'Renew Drivers License', 'Vehicle Registration'])
+    end
+  end
+
+  describe '#regular_registration_cost' do
+    it 'can calculate regular registration cost' do
+      expect (@facility.registration_cost)('regular',  ).to eq(100)
+    end
+
+    it 'calulates antique registration cost' do
+        expect (@facility.registration_cost)('antique',  ).to eq(25)
+    end
+
+    it 'calculates electric registration cost' do
+      expect (@facility.registration_cost)('electric',  ).to eq(200)
     end
   end
 end
