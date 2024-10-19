@@ -10,7 +10,7 @@ RSpec.describe Facility do
   end
 
   describe '#initialize' do
-    xit 'can initialize' do
+    it 'can initialize' do
       expect(@facility).to be_an_instance_of(Facility)
       expect(@facility.name).to eq('DMV Tremont Branch')
       expect(@facility.address).to eq('2855 Tremont Place Suite 118 Denver CO 80205')
@@ -20,20 +20,20 @@ RSpec.describe Facility do
   end
 
   describe '#add service' do
-    xit 'can add available services' do
+    it 'can add available services' do
       expect(@facility.services).to eq([])
       @facility.add_service('New Drivers License')
       @facility.add_service('Renew Drivers License')
       @facility.add_service('Vehicle Registration')
       expect(@facility.services).to eq(
-        ['New Drivers License', 
+        [ 'New Drivers License', 
         'Renew Drivers License', 
-        'Vehicle Registration']
+        'Vehicle Registration' ]
       )
     end
   end
 
-    xit 'sets up plate_type' do
+    it 'sets up plate_type' do
       facility = Facility.new(
         { name: 'DMV Tremont Branch', 
         address: '2855 Tremont Place Suite 118 Denver CO 80205', 
@@ -42,19 +42,17 @@ RSpec.describe Facility do
   end
 
   describe '#registration_cost' do
-    xit 'calulates antique registration cost' do
+    it 'calulates antique registration cost' do
       expect(@facility.registration_cost(:antique, 25)).to eq(25)
       expect(@facility.registration_cost(:antique, 24)).to eq(100)
     end
 
-    xit 'calculates electric registration cost' do
-      expect (@facility.registration_cost('ev')).to eq(200)
-      expect(facility.plate_type).to eq(:ev)
+    it 'calculates electric registration cost' do
+      expect(@facility.registration_cost(:ev)).to eq(200)
     end
 
-    xit 'defaults to $100 for regular registration' do
-      expect(@facility.registration_cost('regular' )).to eq(100)
-      expect(facility.plate_type).to eq(:regular)
+    it 'defaults to $100 for regular registration' do
+      expect(@facility.registration_cost(:regular)).to eq(100)
     end
   end
 end

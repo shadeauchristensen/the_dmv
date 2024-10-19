@@ -13,8 +13,12 @@ class Facility
   end
 
   def registration_cost(plate_type, vehicle_age = nil)
-    return 25 if plate_type == :antique && vehicle_age && vehicle_age >= 25
-    return 200 if plate_type == :ev
-    return 100
+    if vehicle_age && vehicle_age >= 25
+      25
+    elsif plate_type == :ev
+      200
+    else
+      100
+    end
   end
 end
