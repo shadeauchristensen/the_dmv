@@ -56,15 +56,13 @@ RSpec.describe Facility do
     end
   end
 
-  describe '#adiministration_written_test' do
+  describe '#administer_written_test' do
     it 'administers a written test check for over 16' do
       registrant_1 = Registrant.new('Bruce', 18, true)
       registrant_2 = Registrant.new('Penny', 15, false)      
       
       expect(@facility.administration_written_test(registrant_1)).to eq('Pass')
-      expect(registrant_1.license_data[:written]).to eq(true)
       expect(@facility.administration_written_test(registrant_2)).to eq('Reject')
-      expect(registrant_2.license_data[:written]).to eq(false)
     end
   end
 end

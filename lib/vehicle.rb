@@ -1,4 +1,4 @@
-require 'date'
+require 'date' #using this so i can use the .date method
 
 class Vehicle
   attr_reader :vin,
@@ -14,14 +14,29 @@ class Vehicle
     @make = vehicle_details[:make]
     @model = vehicle_details[:model]
     @engine = vehicle_details[:engine]
-    registration_date = nil
+    @plate_type = nil
+    @registration_date = nil
   end
 
   def antique?
-    Date.today.year - @year > 25
+    @year < 1995
   end
-
+  
   def electric_vehicle?
     @engine == :ev
+  end
+
+  def assign_plate_type
+    if @year < Date.today.year - 25
+      @plate_type = :antique
+    elsif @engine == :ev
+      @plate_type = :ev
+    else
+      @plate_type = :regular
+    end
+  end
+
+  def assign_registration_date
+    @registration_date = Date.today
   end
 end
