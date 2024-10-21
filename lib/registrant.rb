@@ -23,11 +23,23 @@ class Registrant
         @license_data[:written] = true
     end
 
+    def pass_road_test
+        @license_data[:license] = true
+    end
     def pass_license
         @license_data[:license] = true
     end
-    
+
     def renew_license
         @license_data[:renewed] = true
     end
+
+    def collected_fees
+        @collected_fees ||= 0
+      end
+      
+      def register_vehicle(vehicle)
+        @register_vehicles ||= []
+        @register_vehicles << vehicle
+      end
 end

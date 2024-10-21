@@ -1,11 +1,11 @@
-require 'rspec'
-require './lib/registrant'
+require 'spec_helper'
 
 RSpec.describe Registrant do
     describe '#initialize' do
         it 'can initialize' do
             registrant_1 = Registrant.new('Bruce', 18, true )
             registrant_2 = Registrant.new('Penny', 15, false)
+            registrant_3 = Registrant.new('Tucker', 15, false)
 
             expect(registrant_1).to be_an_instance_of(Registrant)
             expect(registrant_1.name).to eq('Bruce')
@@ -22,6 +22,14 @@ RSpec.describe Registrant do
             expect(registrant_2.license_data).to eq(
                 { written: false, license: false, renewed: false }
                 )
+
+            expect(registrant_3).to be_an_instance_of(Registrant)
+            expect(registrant_3.name).to eq('Tucker')
+            expect(registrant_3.age).to eq(15)
+            expect(registrant_3.permit?).to eq(false)
+            expect(registrant_3.license_data).to eq(
+                { written: false, license: false, renewed: false }
+                )
         end
     end
 
@@ -33,6 +41,9 @@ RSpec.describe Registrant do
             registrant_2 = Registrant.new('Penny', 15, false)
             registrant_2.earn_permit
             expect(registrant_2.permit?).to eq(true)
+            registrant_3 = Registrant.new('Tucker', 15, false)
+            registrant_3.earn_permit
+            expect(registrant_3.permit?).to eq(true)
         end
     end
 end

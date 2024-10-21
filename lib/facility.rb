@@ -1,21 +1,29 @@
 class Facility
-  attr_reader :name, :address, :phone, :services
+  attr_reader :name, :address, :phone, :services, :registered_vehicles, :collected_fees
 
   def initialize(info)
     @name = info[:name]
     @address = info[:address]
     @phone = info[:phone]
     @services = []
-    @register_vehicles = []
+    @registered_vehicles = []
     @collected_fees = 0
-    @written_tests = []
   end
 
   def add_service(service)
     @services << service
   end
 
-  def register_vehicle(vehicle)
+  def administer_road_test(registrant)
+    if @services.include?('Road Test') && registrant.license_data[:written]
+    registrant.pass_road_test
+      return 'Pass'  
+    else  
+      return 'Reject'
+    end
+  end
+
+  def registered_vehicle(vehicle)
     if @services.include?('Vehicle Registration')
       vehicle.assign_registration_date
       vehicle.assign_plate_type
@@ -25,13 +33,17 @@ class Facility
   end
 
   def administer_written_test(registrant)
-    if registrant.age >= 16 && registrant.permit?
-      registrant.pass_written_test
-      p 'Pass'
-    elsif registrant.age < 16
-      p 'Reject'
-    else
-      p 'Error'
+    return 'Written Test service not available' unless @services.include?('Written Test')
+    
+    if @services.include?('Written Test') 
+      if registrant.age >= 16 && registrant.permit?
+        registrant.pass_written_test
+        return 'Pass'
+      elsif registrant.age < 16
+        return 'Reject'
+      else
+        return 'Error'
+      end
     end
   end
 
@@ -45,6 +57,15 @@ class Facility
     end
   end
 
+  private
+
+  def vehicle_age(vehicle)
+    Date.today.year - vehicle.year
+  end
+
+  def calculate_fees(vehicle)
+    registration_cost(vehicle.plate_type, vehicle_age(vehicle))
+  end
 end
 
 

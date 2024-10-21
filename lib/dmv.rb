@@ -1,3 +1,4 @@
+require_relative 'facility'
 class Dmv
   attr_reader :facilities
 
