@@ -1,5 +1,4 @@
 require 'spec_helper'
-require_relative '../lib/facility'
 
 RSpec.describe Facility do
   before(:each) do
@@ -85,10 +84,26 @@ RSpec.describe Facility do
       )
     end
 
-    it 'sets up plate_type' do
+    it 'sets up plate_type for facility_1' do
       facility_1 = Facility.new(
         { name: 'DMV Tremont Branch', 
         address: '2855 Tremont Place Suite 118 Denver CO 80205', 
+        phone: '(720) 865-4600' }
+    )
+    end
+
+    it 'sets up plate_type for facility_2' do
+      facility_2 = Facility.new(
+        { name: 'DMV Northeast Branch', 
+        address: '4685 Peoria Street Suite 101 Denver CO 80239', 
+        phone: '(720) 865-4600' }
+    )
+    end
+
+    it 'sets up plate_type for facility_3' do
+      facility_3 = Facility.new(
+        { name: 'DMV Northwest Branch', 
+        address: '3698 W. 44th Avenue Denver CO 80211', 
         phone: '(720) 865-4600' }
     )
     end
@@ -119,34 +134,63 @@ RSpec.describe Facility do
       @facility_2.add_service('Written Test')
 
       registrant_1 = Registrant.new('Bruce', 18, true)
-      registrant_2 = Registrant.new('Penny', 15, false)      
+      registrant_2 = Registrant.new('Penny', 16, false)
+      registrant_3 = Registrant.new('Tucker', 15, false)      
       
-      expect(@facility_1.administer_written_test(registrant_1)).to eq('Pass')
-      expect(@facility_1.administer_written_test(registrant_2)).to eq('Reject')
-      expect(@facility_2.administer_written_test(registrant_1)).to eq('Pass')
-      expect(@facility_2.administer_written_test(registrant_2)).to eq('Reject')
+      expect(@facility_1.administer_written_test(registrant_1)).to eq(false)
+      expect(registrant_1.license_data[:written]).to eq(false)
+      expect(@facility_1.administer_written_test(registrant_2)).to eq(false)
+      expect(registrant_2.license_data[:written]).to eq(false)
+      expect(@facility_1.administer_written_test(registrant_3)).to eq(false)
+      expect(registrant_3.license_data[:written]).to eq(false)
+  
+      expect(@facility_2.administer_written_test(registrant_1)).to eq(false)
+      expect(registrant_1.license_data[:written]).to eq(false)
+      expect(@facility_2.administer_written_test(registrant_2)).to eq(false)
+      expect(registrant_2.license_data[:written]).to eq(false)
+      expect(@facility_2.administer_written_test(registrant_3)).to eq(false)
+      expect(registrant_3.license_data[:written]).to eq(false)
     end
   end
 
   describe '#administer_road_test' do
     it 'administers a road test check for over 16' do
-      @facility_1.add_service('Road Test')
-      @facility_2.add_service('Road Test')
+        @facility_1.add_service('Road Test')
+        @facility_2.add_service('Road Test')
+        @facility_3.add_service('Road Test')
 
-      registrant_1 = Registrant.new('Bruce', 18, true)
-      registrant_2 = Registrant.new('Penny', 15, false)  
-      registrant_3 = Registrant.new('Tucker', 15, false)    
-      
-      expect(@facility_1.administer_road_test(registrant_1)).to eq('Pass')
-      expect(registrant_1.license_data[:license]).to eq(true)
+        registrant_1 = Registrant.new('Bruce', 18, true)
+        registrant_2 = Registrant.new('Penny', 16, false)   
+        registrant_3 = Registrant.new('Tucker', 15, false)        
 
-      expect(@facility_2.administer_road_test(registrant_2)).to eq('Reject')
-      expect(registrant_2.license_data[:license]).to eq(false)
+        registrant_1.pass_written_test
+        expect(@facility_1.administer_road_test(registrant_1)).to eq(true)
+        expect(registrant_1.license_data[:license]).to eq(true)
+        registrant_2.pass_written_test
+        expect(@facility_1.administer_road_test(registrant_2)).to eq(false)
+        expect(registrant_2.license_data[:license]).to eq(false)
+        registrant_3.pass_written_test
+        expect(@facility_1.administer_road_test(registrant_3)).to eq(false)
+        expect(registrant_3.license_data[:license]).to eq(false)
 
+        registrant_1.pass_written_test
+        expect(@facility_2.administer_road_test(registrant_1)).to eq(true)
+        expect(registrant_1.license_data[:license]).to eq(true)
+        registrant_2.pass_written_test
+        expect(@facility_2.administer_road_test(registrant_2)).to eq(false)
+        expect(registrant_2.license_data[:license]).to eq(false)
+        registrant_3.pass_written_test
+        expect(@facility_2.administer_road_test(registrant_3)).to eq(false)
+        expect(registrant_3.license_data[:license]).to eq(false)
 
-      expect(@facility_3.administer_road_test(registrant_3)).to eq('Reject')
-      expect(registrant_3.license_data[:license]).to eq(false)
-
+        expect(@facility_3.administer_road_test(registrant_1)).to eq(true)
+        expect(registrant_1.license_data[:license]).to eq(true)
+        registrant_2.pass_written_test
+        expect(@facility_3.administer_road_test(registrant_2)).to eq(false)
+        expect(registrant_2.license_data[:license]).to eq(false)
+        registrant_3.pass_written_test
+        expect(@facility_3.administer_road_test(registrant_3)).to eq(false)
+        expect(registrant_3.license_data[:license]).to eq(false)
     end
   end
 end

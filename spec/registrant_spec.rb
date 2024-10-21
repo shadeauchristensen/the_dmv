@@ -4,8 +4,9 @@ RSpec.describe Registrant do
     describe '#initialize' do
         it 'can initialize' do
             registrant_1 = Registrant.new('Bruce', 18, true )
-            registrant_2 = Registrant.new('Penny', 15, false)
+            registrant_2 = Registrant.new('Penny', 16, false)
             registrant_3 = Registrant.new('Tucker', 15, false)
+
 
             expect(registrant_1).to be_an_instance_of(Registrant)
             expect(registrant_1.name).to eq('Bruce')
@@ -17,7 +18,7 @@ RSpec.describe Registrant do
 
             expect(registrant_2).to be_an_instance_of(Registrant)
             expect(registrant_2.name).to eq('Penny')
-            expect(registrant_2.age).to eq(15)
+            expect(registrant_2.age).to eq(16)
             expect(registrant_2.permit?).to eq(false)
             expect(registrant_2.license_data).to eq(
                 { written: false, license: false, renewed: false }
@@ -38,7 +39,7 @@ RSpec.describe Registrant do
             registrant_1 = Registrant.new('Bruce', 18, true)
             registrant_1.earn_permit
             expect(registrant_1.permit?).to eq(true)
-            registrant_2 = Registrant.new('Penny', 15, false)
+            registrant_2 = Registrant.new('Penny', 16, false)
             registrant_2.earn_permit
             expect(registrant_2.permit?).to eq(true)
             registrant_3 = Registrant.new('Tucker', 15, false)

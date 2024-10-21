@@ -14,12 +14,23 @@ class Facility
     @services << service
   end
 
+  def administer_written_test(registrant)
+    if @services.include?('Written Test')
+      if registrant.age >= 16 && registrant.license_data[:written] && registrant.permit?
+        registrant.pass_written_test
+        return true
+      else registrant.age < 16
+        return false
+      end
+    end
+  end
+
   def administer_road_test(registrant)
-    if @services.include?('Road Test') && registrant.license_data[:written]
-    registrant.pass_road_test
-      return 'Pass'  
-    else  
-      return 'Reject'
+    if @services.include?('Road Test') && registrant.license_data[:written] && registrant.permit?
+      registrant.pass_road_test
+      return true
+    else
+      return false
     end
   end
 
@@ -31,22 +42,7 @@ class Facility
       @collected_fees += calculate_fees(vehicle)
     end
   end
-
-  def administer_written_test(registrant)
-    return 'Written Test service not available' unless @services.include?('Written Test')
-    
-    if @services.include?('Written Test') 
-      if registrant.age >= 16 && registrant.permit?
-        registrant.pass_written_test
-        return 'Pass'
-      elsif registrant.age < 16
-        return 'Reject'
-      else
-        return 'Error'
-      end
-    end
-  end
-
+  
   def registration_cost(plate_type, vehicle_age = nil)
     if vehicle_age && vehicle_age >= 25
       25
