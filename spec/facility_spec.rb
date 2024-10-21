@@ -134,7 +134,7 @@ RSpec.describe Facility do
       @facility_2.add_service('Written Test')
 
       registrant_1 = Registrant.new('Bruce', 18, true)
-      registrant_2 = Registrant.new('Penny', 16, false)
+      registrant_2 = Registrant.new('Penny', 16, true)
       registrant_3 = Registrant.new('Tucker', 15, false)      
       
       expect(@facility_1.administer_written_test(registrant_1)).to eq(false)
@@ -183,6 +183,7 @@ RSpec.describe Facility do
         expect(@facility_2.administer_road_test(registrant_3)).to eq(false)
         expect(registrant_3.license_data[:license]).to eq(false)
 
+        registrant_1.pass_written_test
         expect(@facility_3.administer_road_test(registrant_1)).to eq(true)
         expect(registrant_1.license_data[:license]).to eq(true)
         registrant_2.pass_written_test
@@ -191,6 +192,35 @@ RSpec.describe Facility do
         registrant_3.pass_written_test
         expect(@facility_3.administer_road_test(registrant_3)).to eq(false)
         expect(registrant_3.license_data[:license]).to eq(false)
+    end
+  end
+
+  describe '#renew_license' do
+    it 'renew license' do
+      @facility_1.add_service('Renew License')
+
+      registrant_1 = Registrant.new('Bruce', 18, true)
+      registrant_2 = Registrant.new('Penny', 16, true)   
+      registrant_3 = Registrant.new('Tucker', 15, false)   
+   
+      registrant_1.pass_written_test
+      registrant_1.pass_road_test
+      expect(@facility_1.renew_license(registrant_1)).to eq(true)
+      expect(registrant_1.license_data[:renewed]).to eq(true)
+   
+      registrant_2.pass_written_test
+      registrant_2.pass_road_test
+      expect(@facility_1.renew_license(registrant_2)).to eq(true)
+      expect(registrant_2.license_data[:renewed]).to eq(true)
+   
+      registrant_3.pass_written_test
+      registrant_3.pass_road_test
+      expect(@facility_1.renew_license(registrant_3)).to eq(true)
+      expect(registrant_3.license_data[:renewed]).to eq(true)
+   
+# it does not renew license if registrant has not passed written test
+# it does not renew license if registrant has not passed road test
+
     end
   end
 end

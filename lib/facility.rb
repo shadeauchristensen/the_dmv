@@ -14,6 +14,15 @@ class Facility
     @services << service
   end
 
+  def renew_license(registrant)
+    if @services.include?('Renew License') && registrant.license_data[:license] && registrant.license_data[:written]
+      registrant.renew_license
+      true
+    else
+      false
+    end
+  end
+
   def administer_written_test(registrant)
     if @services.include?('Written Test')
       if registrant.age >= 16 && registrant.license_data[:written] && registrant.permit?
@@ -28,9 +37,9 @@ class Facility
   def administer_road_test(registrant)
     if @services.include?('Road Test') && registrant.license_data[:written] && registrant.permit?
       registrant.pass_road_test
-      return true
+      true
     else
-      return false
+      false
     end
   end
 
@@ -63,8 +72,3 @@ class Facility
     registration_cost(vehicle.plate_type, vehicle_age(vehicle))
   end
 end
-
-
-
-# impliment register vehicle, and checking for services for permit and roat test (rt is later)
-# impliment facility registration cost
