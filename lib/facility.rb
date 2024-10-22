@@ -1,7 +1,5 @@
 class Facility
   attr_reader :name, :address, :phone, :services, :registered_vehicles, :collected_fees,
-              :dmv_id, :name, :address, :city, :state, :zip, :phone, :hours, :services, 
-              :coordinates
 
   def initialize(info)
     @name = info[:name]
