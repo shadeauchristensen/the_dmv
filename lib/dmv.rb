@@ -15,4 +15,13 @@ class Dmv
       facility.services.include?(service)
     end
   end
+
+  def collected_fees
+    @collected_fees ||= 0
+  end
+  
+  def register_vehicle(vehicle)
+    @register_vehicles ||= []
+    @register_vehicles << vehicle
+  end
 end

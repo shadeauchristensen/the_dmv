@@ -1,13 +1,17 @@
 class Facility
-  attr_reader :name, :address, :phone, :services, :registered_vehicles, :collected_fees,
+  attr_reader :name, :address, :phone, :services
 
-  def initialize(info)
-    @name = info[:name]
-    @address = info[:address]
-    @phone = info[:phone]
+  def initialize(facility_info)
+    @name = facility_info[:dmv_office] || facility_info[:name] || "N/A Facility"
+    address_li = facility_info[:address_li] || ""
+    address_1 = facility_info[:address__1] || ""
+    city = facility_info[:city] || ""
+    state = facility_info[:state] || ""
+    zip = facility_info[:zip] || ""
+  
+    @address = "#{address_li} #{address_1} #{city} #{state} #{zip}".strip
+    @phone = facility_info[:phone]
     @services = []
-    @registered_vehicles = []
-    @collected_fees = 0
   end
 
   def add_service(service)
@@ -70,5 +74,16 @@ class Facility
 
   def calculate_fees(vehicle)
     registration_cost(vehicle.plate_type, vehicle_age(vehicle))
+  end
+end
+
+class FacilityFactory
+  def self.create_facilities
+    dmv_data_service = DmvDataService.new
+    co_dmv_data = dmv_data_service.co_dmv_office_locations
+
+    co_dmv_data.map do |office_data|
+      Facility.new(office_data)
+    end
   end
 end

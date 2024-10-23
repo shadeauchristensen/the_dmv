@@ -18,6 +18,7 @@ class Vehicle
     @registration_date = nil
   end
 
+  
   def antique?
     @year < 1995
   end
